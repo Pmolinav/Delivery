@@ -12,5 +12,7 @@ namespace DeliveryAPI.Data
 
         public DbSet<Vehiculo> Vehiculos { get; set; }
 
+        public DbSet<Pedido> Pedidos { get; set; }
+
     }
 }
