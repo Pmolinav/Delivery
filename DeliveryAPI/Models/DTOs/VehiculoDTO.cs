@@ -9,6 +9,8 @@ namespace DeliveryAPI.Models.DTOs
         [Required]
         public string Direccion { get; set; }
         [Required]
+        public string Conductor { get; set; }
+        [Required]
         public double Latitud { get; set; }
         [Required]
         public double Longitud { get; set; }

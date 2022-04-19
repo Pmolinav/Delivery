@@ -9,6 +9,8 @@ namespace DeliveryAPI.Models
         [Key]
         public int Id { get; set; }
         [Required]
+        [Column(TypeName = "VARCHAR")]
+        [StringLength(150)]
         public string Titulo { get; set; }
         public enum TipoUrgencia { Baja, Media, Alta, Crítica }
         [Required]
@@ -18,6 +20,6 @@ namespace DeliveryAPI.Models
         [ForeignKey("VehiculoId")]
         public Vehiculo Vehiculo { get; set; }
         public DateTime CreationDate { get; set; }
-        public DateTime RevisionDate { get; set; }
+        public DateTime? RevisionDate { get; set; }
     }
 }
