@@ -38,7 +38,7 @@ namespace DeliveryAPI.Mapper
 
         }
 
-        [HttpGet("{nationalParkId:int}", Name = "GetNationalPark")]
+        [HttpGet("{idVehiculo:int}", Name = "GetVehiculo")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(VehiculoDTO))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
@@ -54,23 +54,23 @@ namespace DeliveryAPI.Mapper
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(VehiculoDTO))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(VehiculoCreateDTO))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult CreateVehiculo([FromBody] VehiculoDTO vehiculoDTO)
+        public IActionResult CreateVehiculo([FromBody] VehiculoCreateDTO vehiculoCreateDTO)
         {
-            if (vehiculoDTO == null)
+            if (vehiculoCreateDTO == null)
             {
                 return BadRequest(ModelState);
             }
 
-            if (_vehiculoRepo.VehiculoExists(vehiculoDTO.Id))
+            if (_vehiculoRepo.VehiculoExistsByConductor(vehiculoCreateDTO.Conductor))
             {
-                ModelState.AddModelError("", "Este Parque ya existe!");
+                ModelState.AddModelError("", "Este mismo conductor ya se encuentra en otro vehículo.");
                 return StatusCode(404, ModelState);
             }
 
-            var vehiculoObj = _mapper.Map<Vehiculo>(vehiculoDTO);
+            var vehiculoObj = _mapper.Map<Vehiculo>(vehiculoCreateDTO);
 
             if (!_vehiculoRepo.CreateVehiculo(vehiculoObj))
             {
@@ -78,7 +78,7 @@ namespace DeliveryAPI.Mapper
                 return StatusCode(500, ModelState);
             }
 
-            return CreatedAtRoute("GetNationalPark", new { nationalParkId = vehiculoObj.Id }, vehiculoObj);
+            return CreatedAtRoute("GetVehiculo", new { idVehiculo = vehiculoObj.Id }, vehiculoCreateDTO);
 
         }
 
@@ -86,22 +86,28 @@ namespace DeliveryAPI.Mapper
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult UpdateVehiculo(int idVehiculo, [FromBody] VehiculoDTO vehiculoDTO)
+        public IActionResult UpdateVehiculo(int idVehiculo, [FromBody] VehiculoUpdateDTO vehiculoUpdateDTO)
         {
-            if (vehiculoDTO == null || idVehiculo != vehiculoDTO.Id)
+            if (vehiculoUpdateDTO == null || idVehiculo != vehiculoUpdateDTO.Id)
             {
+                ModelState.AddModelError("", "El Id de vehículo no coincide.");
                 return BadRequest(ModelState);
             }
-
-            var nationalParkObj = _mapper.Map<Vehiculo>(vehiculoDTO);
-
-            if (!_vehiculoRepo.UpdateVehiculo(nationalParkObj))
+            else if (!_vehiculoRepo.VehiculoExists(idVehiculo))
             {
-                ModelState.AddModelError("", $"Algo ha fallado al actualizar el Vehiculo con Id = {nationalParkObj.Id}");
+                return NotFound();
+            }
+
+            var vehiculoObj = _mapper.Map<Vehiculo>(vehiculoUpdateDTO);
+
+            if (!_vehiculoRepo.UpdateVehiculo(vehiculoObj))
+            {
+                ModelState.AddModelError("", $"Algo ha fallado al actualizar el vehiculo con Id = {vehiculoObj.Id}");
                 return StatusCode(500, ModelState);
             }
 
-            return Ok(nationalParkObj);
+            string result = "Vehiculo con Id = " + vehiculoObj.Id + " actualizado correctamente";
+            return Ok(result);
         }
 
         [HttpDelete("{idVehiculo:int}", Name = "DeleteVehiculo")]
@@ -116,14 +122,14 @@ namespace DeliveryAPI.Mapper
                 return NotFound();
             }
 
-            var nationalParkObj = _vehiculoRepo.GetVehiculo(idVehiculo);
+            var vehiculoObj = _vehiculoRepo.GetVehiculo(idVehiculo);
 
-            if (!_vehiculoRepo.DeleteVehiculo(nationalParkObj))
+            if (!_vehiculoRepo.DeleteVehiculo(vehiculoObj))
             {
-                ModelState.AddModelError("", $"Algo ha fallado al eliminar el vehiculo con Id = {nationalParkObj.Id}");
+                ModelState.AddModelError("", $"Algo ha fallado al eliminar el vehiculo con Id = {vehiculoObj.Id}");
                 return StatusCode(500, ModelState);
             }
-            string result = "Vehiculo con Id = " + nationalParkObj.Id + " borrado correctamente";
+            string result = "Vehiculo con Id = " + vehiculoObj.Id + " borrado correctamente";
             return Ok(result);
         }
     }

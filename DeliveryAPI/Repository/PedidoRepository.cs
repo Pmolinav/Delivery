@@ -15,6 +15,7 @@ namespace DeliveryAPI.Repository
         }
         public bool CreatePedido(Pedido pedido)
         {
+            pedido.CreationDate = DateTime.Now;
             _db.Pedidos.Add(pedido);
             return Save();
         }
@@ -60,7 +61,12 @@ namespace DeliveryAPI.Repository
 
         public bool UpdatePedido(Pedido pedido)
         {
-            _db.Pedidos.Update(pedido);
+            var pedidoU = _db.Pedidos.First(a => a.Id == pedido.Id);
+            pedidoU.Titulo = pedido.Titulo;
+            pedidoU.Urgencia = pedido.Urgencia;
+            pedidoU.VehiculoId = pedido.VehiculoId;
+            pedidoU.RevisionDate = DateTime.Now;
+
             return Save();
         }
     }

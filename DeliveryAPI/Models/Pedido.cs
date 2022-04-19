@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static DeliveryAPI.Enums.DeliveryEnums;
 
 namespace DeliveryAPI.Models
 {
@@ -12,8 +13,8 @@ namespace DeliveryAPI.Models
         [Column(TypeName = "VARCHAR")]
         [StringLength(150)]
         public string Titulo { get; set; }
-        public enum TipoUrgencia { Baja, Media, Alta, Crítica }
         [Required]
+        [Range(0, 3)]
         public TipoUrgencia Urgencia { get; set; }
         [Required]
         public int VehiculoId { get; set; }

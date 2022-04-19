@@ -51,7 +51,7 @@ namespace DeliveryAPI.Migrations
 
                     b.HasIndex("VehiculoId");
 
-                    b.ToTable("Pedido");
+                    b.ToTable("Pedido", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryAPI.Models.Vehiculo", b =>
@@ -86,7 +86,7 @@ namespace DeliveryAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Vehiculo");
+                    b.ToTable("Vehiculo", (string)null);
                 });
 
             modelBuilder.Entity("DeliveryAPI.Models.Pedido", b =>

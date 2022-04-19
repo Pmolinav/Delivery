@@ -14,6 +14,7 @@ namespace DeliveryAPI.Repository
         }
         public bool CreateVehiculo(Vehiculo vehiculo)
         {
+            vehiculo.CreationDate = DateTime.Now;
             _db.Vehiculos.Add(vehiculo);
             return Save();
         }
@@ -45,7 +46,13 @@ namespace DeliveryAPI.Repository
 
         public bool UpdateVehiculo(Vehiculo vehiculo)
         {
-            _db.Vehiculos.Update(vehiculo);
+            var vehiculo1 = _db.Vehiculos.First(a => a.Id == vehiculo.Id);
+            vehiculo1.Direccion = vehiculo.Direccion;
+            vehiculo1.Conductor = vehiculo.Conductor;
+            vehiculo1.Longitud = vehiculo.Longitud;
+            vehiculo1.Latitud = vehiculo.Latitud;
+            vehiculo1.RevisionDate = DateTime.Now;
+
             return Save();
         }
 
@@ -54,9 +61,9 @@ namespace DeliveryAPI.Repository
             return _db.Vehiculos.Any(a => a.Id == idVehiculo);
         }
 
-        public bool VehiculoExistsByDireccion(string direccion)
+        public bool VehiculoExistsByConductor(string conductor)
         {
-            bool result = _db.Vehiculos.Any(a => a.Direccion.ToLower().Trim() == direccion.ToLower().Trim());
+            bool result = _db.Vehiculos.Any(a => a.Conductor.ToLower().Trim() == conductor.ToLower().Trim());
             return result;
         }
     }

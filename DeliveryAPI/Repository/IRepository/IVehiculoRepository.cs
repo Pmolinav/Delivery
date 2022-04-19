@@ -6,7 +6,7 @@ namespace DeliveryAPI.Repository.IRepository
     {
         ICollection<Vehiculo> GetVehiculos();
         Vehiculo GetVehiculo(int idVehiculo);
-        bool VehiculoExistsByDireccion(string direccion);
+        bool VehiculoExistsByConductor(string conductor);
         bool VehiculoExists(int idVehiculo);
         bool CreateVehiculo(Vehiculo vehiculo);
         bool UpdateVehiculo(Vehiculo vehiculo);

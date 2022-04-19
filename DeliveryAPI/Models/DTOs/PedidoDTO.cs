@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static DeliveryAPI.Models.Pedido;
+using static DeliveryAPI.Enums.DeliveryEnums;
 
 namespace DeliveryAPI.Models.DTOs
 {
@@ -14,7 +14,8 @@ namespace DeliveryAPI.Models.DTOs
         [Required]
         public int VehiculoId { get; set; }
         public VehiculoDTO Vehiculo { get; set; }
-        public DateTime CreationDate { get; set; }
-        public DateTime RevisionDate { get; set; }
+
+        //public DateTime CreationDate { get; set; }
+        //public DateTime RevisionDate { get; set; }
     }
 }

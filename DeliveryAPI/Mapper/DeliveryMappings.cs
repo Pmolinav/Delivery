@@ -9,6 +9,8 @@ namespace DeliveryAPI.Mapper
         public DeliveryMappings()
         {
             CreateMap<Vehiculo, VehiculoDTO>().ReverseMap();
+            CreateMap<Vehiculo, VehiculoCreateDTO>().ReverseMap();
+            CreateMap<Vehiculo, VehiculoUpdateDTO>().ReverseMap();
             CreateMap<Pedido, PedidoDTO>().ReverseMap();
             CreateMap<Pedido, PedidoCreateDTO>().ReverseMap();
             CreateMap<Pedido, PedidoUpdateDTO>().ReverseMap();

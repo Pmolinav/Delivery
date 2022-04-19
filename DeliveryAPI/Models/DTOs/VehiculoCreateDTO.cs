@@ -2,10 +2,8 @@
 
 namespace DeliveryAPI.Models.DTOs
 {
-    public class VehiculoDTO
+    public class VehiculoCreateDTO
     {
-        [Key]
-        public int Id { get; set; }
         [Required]
         public string Direccion { get; set; }
         [Required]
