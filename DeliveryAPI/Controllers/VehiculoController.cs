@@ -66,7 +66,7 @@ namespace DeliveryAPI.Mapper
 
             if (_vehiculoRepo.VehiculoExistsByConductor(vehiculoCreateDTO.Conductor))
             {
-                ModelState.AddModelError("", "Este mismo conductor ya se encuentra en otro vehículo.");
+                ModelState.AddModelError("", "Este conductor es nulo o ya se encuentra en otro vehículo.");
                 return StatusCode(404, ModelState);
             }
 

@@ -41,11 +41,22 @@ namespace DeliveryAPI.Repository
 
         public bool Save()
         {
-            return _db.SaveChanges() >= 0 ? true : false;
+            try
+            {
+                return _db.SaveChanges() >= 0 ? true : false;
+            } 
+            catch(Exception e)
+            {
+                return false;
+            }
         }
 
         public bool UpdateVehiculo(Vehiculo vehiculo)
         {
+            if (vehiculo.Direccion == null || vehiculo.Conductor == null)
+            {
+                return false;
+            }
             var vehiculo1 = _db.Vehiculos.First(a => a.Id == vehiculo.Id);
             vehiculo1.Direccion = vehiculo.Direccion;
             vehiculo1.Conductor = vehiculo.Conductor;
@@ -63,8 +74,15 @@ namespace DeliveryAPI.Repository
 
         public bool VehiculoExistsByConductor(string conductor)
         {
-            bool result = _db.Vehiculos.Any(a => a.Conductor.ToLower().Trim() == conductor.ToLower().Trim());
-            return result;
+            if (conductor != null)
+            {
+                bool result = _db.Vehiculos.Any(a => a.Conductor.ToLower().Trim() == conductor.ToLower().Trim());
+                return result;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
