@@ -88,22 +88,26 @@ namespace DeliveryAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            if (_pedidoRepo.PedidoExistsByTitulo(pedidoCreateDTO.Titulo))
+            if (pedidoCreateDTO.Titulo == null)
             {
-                ModelState.AddModelError("", "¡Este título de pedido ya existe!");
+                ModelState.AddModelError("", "El título del pedido no puede ser nulo.");
+                return StatusCode(500, ModelState);
+            }
+            else if (_pedidoRepo.PedidoExistsByTitulo(pedidoCreateDTO.Titulo))
+            {
+                ModelState.AddModelError("", "Este título de pedido ya existe.");
                 return StatusCode(404, ModelState);
             }
 
             if (!_vehiculoRepo.VehiculoExists(pedidoCreateDTO.VehiculoId))
             {
                 ModelState.AddModelError("", "No existe ningún vehículo con el Id indicado.");
-                return BadRequest(ModelState);
+                return StatusCode(404, ModelState);
             }
             else if ((int) pedidoCreateDTO.Urgencia < 0 || (int) pedidoCreateDTO.Urgencia > 3)
             {
                 ModelState.AddModelError("", "La urgencia del pedido debe encontrarse entre 0 y 3.");
-                return BadRequest(ModelState);
+                return StatusCode(404, ModelState);
             }
 
             var pedidoObj = _pedidoMapper.Map<Pedido>(pedidoCreateDTO);
@@ -137,12 +141,12 @@ namespace DeliveryAPI.Controllers
             if (!_vehiculoRepo.VehiculoExists(pedidoUpdateDTO.VehiculoId))
             {
                 ModelState.AddModelError("", "No existe ningún vehículo con el Id indicado.");
-                return BadRequest(ModelState);
+                return StatusCode(404, ModelState);
             }
             else if ((int)pedidoUpdateDTO.Urgencia < 0 || (int)pedidoUpdateDTO.Urgencia > 3)
             {
                 ModelState.AddModelError("", "La urgencia del pedido debe encontrarse entre 0 y 3.");
-                return BadRequest(ModelState);
+                return StatusCode(404, ModelState);
             }
 
             var pedidoObj = _pedidoMapper.Map<Pedido>(pedidoUpdateDTO);

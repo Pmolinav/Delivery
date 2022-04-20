@@ -11,14 +11,28 @@ namespace DeliveryUnitTest
 {
     internal class ContextMemoria
     {
-        public ApplicationDbContext ObtenerContext(int id)
+        public ApplicationDbContext ObtenerContextVehiculo(int id)
         {
             //Se va a utilizar una base de datos en memoria
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                             .ConfigureWarnings
                             (x => x.Ignore(InMemoryEventId
                                     .TransactionIgnoredWarning))
-                            .UseInMemoryDatabase(databaseName: "Prueba" + id)
+                            .UseInMemoryDatabase(databaseName: "PruebasVh" + id)
+                                    .Options;
+
+            var context = new ApplicationDbContext(options);
+
+            return context;
+        }
+        public ApplicationDbContext ObtenerContextPedido(int id)
+        {
+            //Se va a utilizar una base de datos en memoria
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                            .ConfigureWarnings
+                            (x => x.Ignore(InMemoryEventId
+                                    .TransactionIgnoredWarning))
+                            .UseInMemoryDatabase(databaseName: "PruebasPed" + id)
                                     .Options;
 
             var context = new ApplicationDbContext(options);
