@@ -11,7 +11,7 @@ Por tanto, las pruebas unitarias tendrán como objetivo comprobar las llamadas G
 ## Compilación y ejecución de las pruebas   
  Este es un poryecto de pruebas xUnit para una API de .NET Core 6, por lo que lo más recomendado es abrir la solución con la versión más actual posible de Visual Studio.
  
- Mediante Visual Studio, será posible compilar la solución y realizar las pruebas unitarias accediendo en la barra superiro a "Prueba/Explorador de pruebas/Ejecutar todas las pruebas". 
+ Mediante Visual Studio, será posible compilar la solución y realizar las pruebas unitarias accediendo en la barra superior a "Prueba/Explorador de pruebas/Ejecutar todas las pruebas". 
 
  Para realizar estas pruebas xUnit, se crea una base de datos en memoria y se rellena su información con datos de prueba.
 

@@ -64,8 +64,6 @@ Como hemos visto al inicio, se pueden realizar numerosas acciones con la aplicac
 
 `curl -X 'GET' \  'https://localhost:44341/api/Pedido' \  -H 'accept: application/json'
 
-Esta llamada nos devolverá un código de estado 200 y la lista completa de súper heroes.
-
 * GET para optener el Vehículo con Id = 1.
 
 `curl -X 'GET' \  'https://localhost:44341/api/Vehiculo/1' \  -H 'accept: application/json'`
