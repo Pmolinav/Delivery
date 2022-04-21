@@ -40,9 +40,11 @@ Dentro de la aplicación se contemplan diferentes acciones a realizar, tanto par
  
 
 ### Base de datos: SQL Server    
-Se ha utilizado una base de datos de SQL Server local para el almacenamiento de datos de la API. Podemos verla dentro del proyecto como "(LocalDb)\\MSSQLLocalDB". 
+Se ha utilizado una base de datos de SQL Server (puerto 1440) para el almacenamiento de datos de la API. En versiones iniciales se utilizó una base de datos local de la forma "(LocalDb)\\MSSQLLocalDB", pero en las últimas versiones se ha migrado con docker-compose para una mayor facilidad y sencillez en su uso y despliegue. 
 Dentro del proyecto, se han establecido los modelos de datos que componen las tablas correspondientes a la base de datos denominada "Delivery" (podemos verlos en la carpeta "Models"). Se han creado también DTOs específicos para la selección, creación o actualización de los diferentes registros.
 Además, en la carpeta "Data" del proyecto "DeliveryAPI" podemos ver tanto el context creado, como las migraciones realizadas para actualizar la base de datos.
+Como se ha visto en el fichero "README.md" de la solución, se podrá desplegar el contenedor de docker con la instucción docker-compose up -d y, posteriormente, se deberá realizar un update-database dentro de la consola de Visual Studio para actualizar los datos.
+Podemos ver la configuración de la base de datos dentro del fichero appsettings.json, donde podemos encontrar el usuario y la contraseña necesarios para conectarse a la base de datos.
 
 ### Control de versiones
 Para el control de versiones del proyecto se ha utilizado constantemente GIT.
