@@ -3,7 +3,7 @@
 ## Descripción    
 Esta aplicación permite la interacción con los pedidos y vehículos existentes en la empresa de paquetería.
 
-### Acciones disponibles:
+### Acciones disponibles
 Dentro de la aplicación se contemplan diferentes acciones a realizar, tanto para los vehículos existentes, como para los pedidos realizados.
 * Consultar los datos de todos los vehículos disponibles.
 * Consultar los datos de todos los pedidos disponibles.
@@ -12,122 +12,69 @@ Dentro de la aplicación se contemplan diferentes acciones a realizar, tanto par
 * Obtener los datos de un vehículo por el conductor que lo lleva.
 * Crear un nuevo vehículo.
 * Crear un nuevo pedido.
-* Modificar los datos referentes un vehículo.
+* Modificar los datos referentes a un vehículo.
 * Modificar la información de un pedido.
 * Eliminar un vehículo.
 * Eliminar un pedido.
 
 
-## Build y ejecución del servicio    
- El build del servicio se realiza con `gradle`. No es necesario tener instalado gradle en el equipo ya que el proyecto contiene un gradle embebido.
- Para el build del proyecto ejecutar por línea de comandos desde la raíz del proyecto lo siguiente:  
-
-```bash prompt> ./gradlew clean build ``` 
+## Compilación y ejecución del servicio    
+ Al ser un proyecto de .NET Core 6, lo más recomendado es abrir la solución con la versión más actual posible de Visual Studio.
  
-Si estuviera `gradle` instalado en el equipo la instrucción sería: `gradle clean build`, en lugar de usar el gradle wrapper (`gradlew`). Para el build es necesario tener instalado Java JDK 11 o superior y configurado en las variables de entorno.    
+ Mediante Visual Studio, será posible compilar la solución y ejecutar la API (por ejemplo en un IIS Express) para poder comprobar su funcionamiento.
 
-Una vez construido `gradle` habrá creado un fatJar que contiene el API y todas sus dependencias (gracias al spring-boot gradle plugin). 
-Para ejecutar el api, sería suficiente con ejecutar: 
-
-```bash prompt> java -jar build/libs/superheroes.jar```
-
-Es necesario tener instalado Java JRE 11 o superior.    
+ Si se desea revisar los datos almacenados en base de datos, es conveniente realizar la conexión con Microsoft SQL Server Management Studio.
     
-Es posible también ejecutar el servicio usando gradle: `./gradlew bootRun`.    
+
+## Estructura del proyecto  
+ Este proyecto posee, además de las creadas por defecto, diferentes carpetas diferentes para facilitar su comprensión y la distribución de sus clases. Estas carpetas son las siguientes:
+ * Models. Contiene los modelos que se migrarán y estarán representados en base de datos para las tablas Vehículo y Pedido. También contiene una subcarpeta DTOs (Data Transfer Objects) donde se encuentran los diferentes objetos de datos creados para consultas, creación o inserción de datos.
+ * Mapper. Utilizando el paquete Automapper que hemos instalado en nuestro proyecto, se establece un mapeado entre los modelos de datos y los DTOs creados. En esta carpeta podemos ver una clase que establece todas las asignaciones necesarias.
+ * Data. Además de tener una subcarpeta "Migrations" con todas las migraciones realizadas en base de datos, esta carpeta contiene una clase que extiende de "DbContext" y que reflejará nuestro contexto de base de datos.
+ * Enums. Esta carpeta auxiliar contiene los tipos "enum" que hemos utilizado en la aplicación. En este caso, para la urgencia que tiene un pedido.
+ * Repository. Contiene tanto las interfaces correspondientes a Vehículo y Pedido, como la implementación de las mismas. Sus clases se basan en realizar las operaciones necesarias (creación, consulta, borrado...) sobre el contexto de base de datos creado, guardando los cambios necesarios.
+ * Controllers. Dentro de ella, se encuentran los controladores correspondientes a cada tabla. En sus clases, se concretan las operaciones GET, POST etc. Desde ellas se llama al repositorio correspondiente, se opera contra base de datos y se devuelve el resultado de la acción (Ok, NotFound etc.).
     
-    
-### Ejecutar los Test Unitarios    
- Es posible ejecutar los test unitarios mediante el comando:
+### Pruebas Unitarias    
+ El Proyecto DeliveryUnitTest que se encuentra en esta misma solución permite la ejecución de pruebas unitarias para las diferentes acciones y resultados que pueden llevarse a cabo en la aplicación.
+ 
 
-```bash prompt> ./gradlew clean test```   
+### Base de datos: SQL Server    
+Se ha utilizado una base de datos de SQL Server local para el almacenamiento de datos de la API. Podemos verla dentro del proyecto como "(LocalDb)\\MSSQLLocalDB". 
+Dentro del proyecto, se han establecido los modelos de datos que componen las tablas correspondientes a la base de datos denominada "Delivery" (podemos verlos en la carpeta "Models"). Se han creado también DTOs específicos para la selección, creación o actualización de los diferentes registros.
+Además, en la carpeta "Data" del proyecto "DeliveryAPI" podemos ver tanto el context creado, como las migraciones realizadas para actualizar la base de datos.
 
-### Ejecutar los Test de Sistema
-Es posible ejecutar los test de sistema mediante el comando:
-
-```bash prompt> ./gradlew clean integrationTest```
-    
-## Configuration    
- Esta API usa las propiedades standard de .Net Core 6.0 (see: https://docs.microsoft.com/es-es/dotnet/core/whats-new/dotnet-6).    
-
-De esta manera, las propiedades se pueden establecer desde argumentos de línea de comando, variables de entorno, propiedades del sistema java, campos de configuración, etc. Estas diferentes fuentes de propiedades se leen en orden, desde formas de configuración más estáticas hasta formas más dinámicas, de una manera que más las configuraciones dinámicas sobrescriben las más estáticas. El orden en el que se lee la configuración es el siguiente:    
-
-* Archivo de configuración predeterminado incrustado en la aplicación.
-* Archivo de configuración que se encuentra en el directorio de trabajo de la aplicación.
-* Variables de entorno.
-* Propiedades de Java.
-* Argumentos de la línea de comandos.   
-
-Además, como se utilizan las propiedades estándar de Spring Boot framework, todas las propiedades comunes (https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html) también se puede utilizar en el servicio. Por ejemplo, es posible cambiar el puerto en el que escuchará el servicio (8080 por defecto): `java -jar build/libs/superheroes.jar --server.port=9000`.     
-
-La siguiente es la lista de las palabras clave de configuración comunes más importantes utilizadas por la API:  
-    
-| Clave  | Descripción  | Posibles Valores |
- |---|---|---|
-| server.port | El puerto en el que la API va a escuchar la solicitud.. | Entero positivo entre 1 y 65535. | 
-| spring.datasource.url | La cadena de conexión a la base de datos H2.   | Conexión JDBC valida para H2. |
-| spring.datasource.username | El nombre del usuario de la base de datos que se utilizará al conectarse a la base de datos. | Valor alfanumérico. |
-| spring.datasource.password | La contraseña del usuario de la base de datos que se utilizará al conectarse a la base de datos. | Valor alfanumérico. | 
-| spring.datasource.driverClassName | Driver de conexión a la base de datos | org.h2.Driver | 
-| liquibase.change-log | La ruta al archivo de registro de cambios de liquibase que se debe implementar al inicio. | Ruta al archivo de registro de cambios. Se aceptan class-path de Java. P.ej.: `classpath:/db/changelog/incio.xml` |
-| liquibase.enabled | Variable booleana que indica si se debe de ejecutar liquibase o no al inicio.   | true o false |
-| spring.h2.console.enabled | Variable booleana que indica si se está disponible o no la consola de gestión de la base de datos H2  | true o false |
-| security.auth-token-header-name | Nombre de la variable que contendrá en el header el token de acceso al api  | Valor alfanumérico, por defecto es X-API-Key, pero es posible cambiarlo |
-| security.auth-token | Valor del token de acceso al api | Valor alfanumérico, por defecto es token-value, pero es posible cambiarlo |
-| logging.file | Nombre y ruta de la ubicación del fichero de logs. | Ruta con permisos de escritura. |
-| logging.config | Ubicación del fichero de configuración de logback | classpath:logback-spring.xml |
-
-    
-### Base de datos: H2    
-H2 es un sistema administrador de bases de datos relacionales programado en Java. 
-Puede ser incorporado en aplicaciones Java o ejecutarse de modo cliente-servidor. Una de las características más importantes de H2 es que se puede integrar completamente en aplicaciones Java y acceder a la base de datos lanzando SQL directamente, sin tener que pasar por una conexión a través de sockets.
-
-Si la variable de configuración `spring.h2.console.enabled` está habilitada se puede acceder a la consola de gestión a traves de la url: http://localhost:<PUERTO_CONFIGURADO>/h2-console/
-
-### Control de versiones de las DDL
-Para el control de versiones de la base de datos se utiliza liquibase (https://www.liquibase.org/)
+### Control de versiones
+Para el control de versiones del proyecto se ha utilizado constantemente GIT.
 
 ### Documentación del API (Swagger)
-Se puede consultar todos los endpoints de los que dispone la api accediendo la url: http://localhost:<PUERTO_CONFIGURADO>/swagger-ui/
+Como estamos utilizando Swagger para nuestra API, es posible consultar el índice de la API accediendo la URL https://localhost:<PUERTO_CONFIGURADO>/swagger/index.html
 
-Swagger nos permite además de consultar la documentación realizar llamadas reales al api.
+Desde este índice, Swagger nos permite también realizar llamadas reales (GET, POST etc.).
+
+Si se quiere revisar el JSON correspondiente, se podrá acceder a la URL https://localhost:<PUERTO_CONFIGURADO>/swagger/v1/swagger.json.
+
+Para las pruebas locales, el puerto configurado utilizado como ejemplo ha sido el 44341.
 
 
-## Construcción y ejecución de la imagen de docker
-Es también posible construir y ejecutar el api como una imagen de Docker:
+## Ejemplo de llamada a la API
+Como hemos visto al inicio, se pueden realizar numerosas acciones con la aplicación. En este apartado dejamos algunos ejemplos de llamadas correctas teniendo en cuenta que nuestro puerto es el 44341.
 
-Para construirla desde línea de comandos debemos colocarnos sobre la carpeta raíz del proyecto, ya que en ella se encuentra nuestro Dockerfile y una vez posicionados ejecutar el siguiente comando poniendo el nombre de la imagen que consideremos oportuno:
+* GET para obtener todos los pedios existentes.
 
-```bash prompt> ./gradlew clean build```
-
-```bash prompt> docker build -t <<NAME>> .```
-
-Para ejecutar el micro servicio dockerizado ejecutar:
-
-```bash prompt>docker run --publish 9090:9090 <<NAME>>```
-
-Una vez levantado tendremos acceso desde nuestro local al servicio existente en docker a través de puesto 9090 (se ha puesto para el ejemplo, pero es configurable)
-
-## Ejemplo de llamada al api
-Como se indicó en la descripción, el servicio está securizado, por lo que será necesario indicar un API KEY valido para acceder.
-
-Posibles casos:
-
-* API KEY Correctamente informado:
-
-`curl -X GET "http://localhost:9090/api/v1/superhero/all" -H "accept: application/json" -H "X-API-Key: token-value"`
+`curl -X 'GET' \  'https://localhost:44341/api/Pedido' \  -H 'accept: application/json'
 
 Esta llamada nos devolverá un código de estado 200 y la lista completa de súper heroes.
 
-* API KEY Incorrecto:
+* GET para optener el Vehículo con Id = 1.
 
-`curl -X GET "http://localhost:9090/api/v1/superhero/all" -H "accept: application/json" -H "X-API-Key: token-no-valido"`
+`curl -X 'GET' \  'https://localhost:44341/api/Vehiculo/1' \  -H 'accept: application/json'`
 
-Al no ser un token válido esta llamada nos devolverá un código de estado 403.
+* POST para crear un nuevo Vehículo.
 
-* API KEY No añadida en el header:
+`curl -X 'POST' \
+  'https://localhost:44341/api/Vehiculo' \  -H 'accept: application/json' \  -H 'Content-Type: application/json' \
+  -d '{  "direccion": "Direccion de Ejemplo",  "conductor": "Conductor de Ejemplo",  "latitud": 1.63574,  "longitud": -1.29465}'`
 
-`curl -X GET "http://localhost:9090/api/v1/superhero/all" -H "accept: application/json"`
-
-Al no llevar la cabecera X-API-Key esta llamada nos devolverá un código de estado 403.
-    
+Estos son solo algunos ejemplos de llamadas a nuestra API, pero también podrán realizarse llamadas de forma más sencilla gracias a Swagger.
 
