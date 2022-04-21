@@ -61,6 +61,11 @@ namespace DeliveryAPI.Repository
 
         public bool UpdatePedido(Pedido pedido)
         {
+            if (pedido.Titulo == null)
+            {
+                return false;
+            }
+
             var pedidoU = _db.Pedidos.First(a => a.Id == pedido.Id);
             pedidoU.Titulo = pedido.Titulo;
             pedidoU.Urgencia = pedido.Urgencia;

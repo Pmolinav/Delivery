@@ -84,19 +84,19 @@ namespace DeliveryUnitTest
                 //2
                 new Pedido
                 {
-                    Id = 1, Titulo = "Demo Pedido 2", Urgencia = TipoUrgencia.Media, VehiculoId = 1 ,
+                    Id = 2, Titulo = "Demo Pedido 2", Urgencia = TipoUrgencia.Media, VehiculoId = 1 ,
                     Vehiculo = vehiculo1 , CreationDate = DateTime.Now, RevisionDate = null
                 },
                 //3
                 new Pedido
                 {
-                    Id = 1, Titulo = "Demo Pedido 3", Urgencia = TipoUrgencia.Alta, VehiculoId = 1 ,
+                    Id = 3, Titulo = "Demo Pedido 3", Urgencia = TipoUrgencia.Alta, VehiculoId = 2 ,
                     Vehiculo = vehiculo2 , CreationDate = DateTime.Now, RevisionDate = null
                 },
                 //4
                 new Pedido
                 {
-                    Id = 1, Titulo = "Demo Pedido 4", Urgencia = TipoUrgencia.Crítica, VehiculoId = 1 ,
+                    Id = 4, Titulo = "Demo Pedido 4", Urgencia = TipoUrgencia.Crítica, VehiculoId = 2 ,
                     Vehiculo = vehiculo2 , CreationDate = DateTime.Now, RevisionDate = null
                 }
             };

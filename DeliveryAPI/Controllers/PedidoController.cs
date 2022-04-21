@@ -53,6 +53,11 @@ namespace DeliveryAPI.Controllers
             {
                 return NotFound();
             }
+            else if (objList.Count == 0)
+            {
+                return NotFound();
+            }
+
             var objDTO = new List<PedidoDTO>();
 
             foreach (var obj in objList)
