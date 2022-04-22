@@ -11,9 +11,10 @@ En un breve resumen podemos decir que el proyecto "DeliveryAPI" constituye la AP
 ## Configuración inicial
 Para poder abrir la solución, puede utilizarse la versión más reciente posible de Visual Studio.
 * Lo que haremos en primer lugar será levantar el docker-compose. Para ello, abriremos la consola cmd y viajaremos a la ruta en la que se encuentre nuestra solución mediante la instrucción "cd". Por ejemplo: cd D:\Visual Studio Projects\repos\Delivery
+* Una vez en la ruta correcta, escribimos docker-compose up -d en línea de comandos y ejecutamos. De este modo desplegaremos el contenedor y la base de datos quedará levantada en el puerto 1440.
 * A continuación, abriremos nuestra solución con Visual Studio y, en la parte superior, viajamos a Herramientas / Administrador de paquetes NuGet / Consola del Administrador de paquetes.
 * En la parte inferior de la pantalla se nos abrirá una consola. En ella debeos escribir update-database y pulsar intro.
-* Una vez hayamos realizado estos pasos, la base de datos creada mediante docker-compose en local, se actualizará correctamente y podremos probar la aplicación.
+* Una vez hayamos realizado estos pasos, la base de datos creada mediante docker-compose en local se actualizará correctamente y podremos probar la aplicación.
 * Si queremos tener algunos datos de prueba, se ha dejado un script llamado "Script_Ejemplo_Pruebas.sql" en esta misma ubicación. Este script puede ejecutarse directamente en la base de datos para tener algunos datos de ejemplo.
 * Con esto, ya podemos ejecutar nuestra API en la parte superior de Visual Studio, con un IIS Express por ejemplo.
 * Finalmente, si queremos ejecutar las pruebas unitarias, podemos hacerlo en la parte superior de Visual Studio, viajamos a Prueba / Explorador de pruebas y pulsamos en "Ejecutar todas las pruebas". De este modo, todas deberían ser satisfactorias si el funcionamiento de la aplicacion es el correcto.
